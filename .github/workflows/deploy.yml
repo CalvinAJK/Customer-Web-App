@@ -1,14 +1,12 @@
 name: Deploy ASP.Net Core app to Azure Web App - thamco-customer-web-app
 
 on:
-  workflow_run:
-    workflows: ["Build ASP.Net Core app - thamco-customer-web-app"]
-    types:
-      - completed
+  workflow_dispatch:
+  
 jobs:
   deploy:
     runs-on: windows-latest
-    needs: build
+    
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
