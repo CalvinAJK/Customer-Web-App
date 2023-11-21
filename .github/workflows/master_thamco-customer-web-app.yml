@@ -8,7 +8,10 @@ on:
     branches:
       - master
   workflow_dispatch:
-
+  
+env:
+  TEST_PROJECT: 'Customer-Web-App.Tests/Customer-Web-App.Tests.csproj'
+  
 jobs:
   build:
     runs-on: windows-latest
@@ -26,7 +29,7 @@ jobs:
         run: dotnet restore
 
       - name: Run unit tests
-        run: dotnet test --configuration Release --no-build --logger trx --results-directory ./test-results
+        run: dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-build --logger trx --results-directory ./test-results
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
