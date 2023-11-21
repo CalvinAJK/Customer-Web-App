@@ -62,4 +62,4 @@ jobs:
           app-name: 'thamco-customer-web-app'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_Wyg1vX4hJS5SG6WgDbro66kCJDS618xRwBmKdR6SklQQ79CQxf8qm0iuKsrD }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B84610FB9C3944D08DABD7999C241744 }}
