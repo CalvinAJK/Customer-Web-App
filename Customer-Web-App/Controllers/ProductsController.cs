@@ -25,14 +25,13 @@ namespace Customer_Web_App.Controllers
             var response = await Client.GetAsync("/api/products");
             response.EnsureSuccessStatusCode();
             var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
-            var vm = products.Select(c => new ProductViewModel
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Description = c.Description,
-                Price = c.Price,
-                Stock = c.Stock,
-            });
+            var vm = products.Select(c => new ProductViewModel(
+                id: c.Id,
+                name: c.Name,
+                description: c.Description,
+                price: c.Price,
+                stock: c.Stock
+            ));
             return View(vm);
         }
     }
