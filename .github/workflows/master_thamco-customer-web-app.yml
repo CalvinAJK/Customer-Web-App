@@ -28,11 +28,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Run unit tests
-        run: dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-build --logger trx --results-directory ./test-results
-
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+      - name: Run unit tests
+        run: dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-build --logger trx --results-directory ./test-results
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
