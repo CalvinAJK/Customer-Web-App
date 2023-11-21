@@ -52,7 +52,7 @@ namespace Customer_Web_App.Tests
             var model = viewResult.Model as IEnumerable<ProductViewModel>;
             Assert.IsNotNull(model);
 
-            Assert.AreEqual(expectedProducts.Count + 2, model.Count());
+            Assert.AreEqual(expectedProducts.Count, model.Count());
 
             // You can add more specific assertions based on your actual data and expectations
             // For example, check if the product details match the expected values.
