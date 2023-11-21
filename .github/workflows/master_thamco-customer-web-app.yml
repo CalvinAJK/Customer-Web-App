@@ -22,13 +22,11 @@ jobs:
           dotnet-version: '6.0'
           include-prerelease: true
 
+      - name: Restore dependencies
+        run: dotnet restore
+
       - name: Run unit tests
-        run:
-          dotnet test 
-            --configuration Release
-            --no-build
-            --logger trx 
-            --results-directory ./test-results
+        run: dotnet test --configuration Release --no-build --logger trx --results-directory ./test-results
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
