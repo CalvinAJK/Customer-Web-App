@@ -46,9 +46,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
@@ -61,6 +58,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'thamco-customer-web-app'
-          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B84610FB9C3944D08DABD7999C241744 }}
