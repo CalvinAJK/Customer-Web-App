@@ -1,9 +1,42 @@
-name: Deploy ASP.Net Core app to Azure Web App - thamco-customer-web-app
+name: Build and Test and deploy ASP.Net Core app - thamco-customer-web-app
 
 on:
   workflow_dispatch:
+
+env:
+  TEST_PROJECT: 'Customer-Web-App.Tests/Customer-Web-App.Tests.csproj'
   
 jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0'
+          include-prerelease: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: Run unit tests
+        run: dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-build --logger trx --results-directory ./test-results
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
   deploy:
     runs-on: windows-latest
     
