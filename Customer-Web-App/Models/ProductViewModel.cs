@@ -2,7 +2,7 @@
 {
     public class ProductViewModel
     {
-        public ProductViewModel(int id, string? name, string? description, decimal? price, int? stock)
+        public ProductViewModel(int id, string? name, string? description, decimal? price, bool stock)
         {
             Id = id;
             Name = name;
@@ -15,6 +15,6 @@
         public string? Name{ get; set; }
         public string? Description { get; set; }
         public decimal? Price { get; set;}
-        public int? Stock { get; set;}
+        public bool Stock { get; set;}
     }
 }

@@ -6,7 +6,7 @@ namespace Customer_Web_App.Controllers
     public class ProductsController : Controller
     {
         private HttpClient Client { get; }
-        record ProductDTO(int Id, string Name, string Description, decimal Price, int Stock);
+        record ProductDTO(int Id, string Name, string Description, decimal Price, bool Stock);
 
         public ProductsController(HttpClient client,
                               IConfiguration configuration)
@@ -24,7 +24,7 @@ namespace Customer_Web_App.Controllers
         {
             var response = await Client.GetAsync("/api/products");
             response.EnsureSuccessStatusCode();
-            var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
+            var products = await response.Content.ReadAsAsync<IEnumerable<ProductDTO>>();
             var vm = products.Select(c => new ProductViewModel(
                 id: c.Id,
                 name: c.Name,
