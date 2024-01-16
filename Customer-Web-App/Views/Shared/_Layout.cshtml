@@ -29,17 +29,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GuestBookings" asp-action="Index">Guest Bookings</a>
-                        </li> *@
+                        *@
                         <li class="nav-item">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
                             }
                             else
                             {
-                                <a asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Profile</a>
+                            }
+                        </li> 
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
                             }
                         </li>
                     </ul>

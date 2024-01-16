@@ -1,4 +1,5 @@
 ﻿using Auth0.AspNetCore.Authentication;
+using Customer_Web_App.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -38,14 +39,19 @@ namespace Customer_Web_App.Controllers
         [Authorize]
         public IActionResult Profile()
         {
-            return View(new UserProfileViewModel()
+            var userProfile = new UserProfileViewModel()
             {
                 Name = User.Identity.Name,
                 EmailAddress = User.Claims
                     .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 ProfileImage = User.Claims
-                    .FirstOrDefault(c => c.Type == "picture")?.Value
-            });
+                    .FirstOrDefault(c => c.Type == "picture")?.Value,
+                // You might need to fetch additional user information and populate the model
+                Address = "123 Main Street",
+                PhoneNumber = 123456789
+            };
+
+            return View(userProfile);
         }
 
         [Authorize]
@@ -59,3 +65,4 @@ namespace Customer_Web_App.Controllers
             return View();
         }
     }
+}
