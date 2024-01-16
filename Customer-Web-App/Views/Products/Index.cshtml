@@ -2,6 +2,15 @@
 
 <h2>Product List</h2>
 
+<form method="get" action="@Url.Action("Search", "Products")">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="searchTerm" placeholder="Search by name or description">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
 <table id="myTable" class="table">
     <thead>
         <tr>
