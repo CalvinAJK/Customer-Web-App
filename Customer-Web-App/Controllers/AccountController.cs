@@ -1,22 +1,61 @@
 ﻿using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Customer_Web_App.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Login(string returnUrl = "/")
+        public async Task Login(string returnUrl = "/")
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl });
+            var authenticationProperties = new
+                LoginAuthenticationPropertiesBuilder()
+                    .WithRedirectUri(returnUrl)
+                    .Build();
+
+            await HttpContext.ChallengeAsync(
+                Auth0Constants.AuthenticationScheme, authenticationProperties);
         }
 
-        public IActionResult Logout()
+        [Authorize]
+        public async Task Logout()
         {
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" },
+            var authenticationProperties = new
+                LogoutAuthenticationPropertiesBuilder()
+                    .WithRedirectUri(Url.Action("Index", "Home"))
+                    .Build();
+
+            await HttpContext.SignOutAsync(
+                Auth0Constants.AuthenticationScheme, authenticationProperties);
+
+            await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
         }
-    }
 
-}
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View(new UserProfileViewModel()
+            {
+                Name = User.Identity.Name,
+                EmailAddress = User.Claims
+                    .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                ProfileImage = User.Claims
+                    .FirstOrDefault(c => c.Type == "picture")?.Value
+            });
+        }
+
+        [Authorize]
+        public IActionResult Claims()
+        {
+            return View();
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+    }
