@@ -1,10 +1,34 @@
 using Customer_Web_App.Controllers;
+using Auth0.AspNetCore.Authentication;
+using Customer_Web_App.Services.Products;
+using Polly;
+using Polly.Extensions.Http;    
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+if (builder.Configuration.GetValue<bool>("Services:Products:UseFake", true))
+{
+    builder.Services.AddTransient<IProductsService, FakeProductService>();
+}
+else
+{
+    builder.Services.AddHttpClient<ProductService>()
+                .AddPolicyHandler(GetRetryPolicy());
+    builder.Services.AddTransient<IProductsService, ProductService>();
+    builder.Services.AddAuth0WebAppAuthentication(options => {
+        options.Domain = builder.Configuration["Auth:Domain"];
+        options.ClientId = builder.Configuration["Auth:ClientId"];
+    });
+
+}
+
+
+
+
+
+
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient<ProductsController>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -27,3 +52,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(5, retryAttempt =>
+            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+}

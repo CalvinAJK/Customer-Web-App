@@ -1,38 +1,51 @@
 ﻿using Customer_Web_App.Models;
+using Customer_Web_App.Services.Products;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Customer_Web_App.Controllers
 {
     public class ProductsController : Controller
     {
-        private HttpClient Client { get; }
-        record ProductDTO(int Id, string Name, string Description, decimal Price, bool Stock);
+        private readonly IProductsService _productsService; 
 
-        public ProductsController(HttpClient client,
-                              IConfiguration configuration)
+        public ProductsController(IProductsService productsService)
         {
-            // FIXME: don't use HttpClient directly in controllers
-            // FIXME: use a Service Proxy / Remote Facade pattern -- see "Isolation"
-            var baseUrl = configuration["WebServices:Products:BaseURL"];
-            client.BaseAddress = new System.Uri(baseUrl);
-            client.Timeout = TimeSpan.FromSeconds(5);
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-
-            Client = client;
+            _productsService = productsService;
         }
+
         public async Task<IActionResult> Index()
         {
-            var response = await Client.GetAsync("/api/products");
-            response.EnsureSuccessStatusCode();
-            var products = await response.Content.ReadAsAsync<IEnumerable<ProductDTO>>();
-            var vm = products.Select(c => new ProductViewModel(
-                id: c.Id,
-                name: c.Name,
-                description: c.Description,
-                price: c.Price,
-                stock: c.Stock
-            ));
-            return View(vm);
+            try
+            {
+                var products = await _productsService.GetProductsAsync();
+
+                if (products != null)
+                {
+                    return View(products);
+                }
+                else
+                {
+                    return View("Error"); // Create an "Error" view for handling this case
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                return View("Error"); // Create an "Error" view for handling exceptions
+            }
+        }
+
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                // Handle invalid search term, maybe return a different view or show an error message
+                return RedirectToAction("Index");
+            }
+
+            var products = await _productsService.GetProductsByNameAsync(searchTerm);
+            return View("Index", products);
         }
     }
 }
