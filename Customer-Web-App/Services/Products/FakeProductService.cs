@@ -6,9 +6,9 @@ namespace Customer_Web_App.Services.Products
     {
         private readonly ProductViewModel[] _products =
         {
-            new ProductViewModel { Name = "Fake product E", Description = "Fake Description E", Price = 1111, InStock = true},
-            new ProductViewModel { Name = "Fake product F", Description = "Fake Description F", Price = 2222, InStock = false},
-            new ProductViewModel { Name = "Fake product G", Description = "Fake Description G", Price = 3333, InStock = true},
+            new ProductViewModel { Name = "Fake product E", Description = "Fake Description E", Price = 1111, InStock = "true"},
+            new ProductViewModel { Name = "Fake product F", Description = "Fake Description F", Price = 2222, InStock = "false"},
+            new ProductViewModel { Name = "Fake product G", Description = "Fake Description G", Price = 3333, InStock = "test"},
         };
 
         public Task<IEnumerable<ProductViewModel>> GetProductsAsync()
