@@ -2,11 +2,24 @@
 
 <h2>Product List</h2>
 
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
-            <th>Product Name</th>
-            <!-- Add more columns as needed -->
+            <th class="pointer" onclick="sortTable(0)">
+            Name
+            </th>
+            
+            <th class="pointer" onclick="sortTable(1)">
+                Description
+            </th>
+
+            <th class="pointer" onclick="sortTable(2)">
+            Price
+            </th>
+
+            <th class="pointer" onclick="sortTable(3)">
+            Stock
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +27,9 @@
         {
             <tr>
                 <td>@product.Name</td>
-                <!-- Add more columns as needed -->
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td>@product.Stock</td>
             </tr>
         }
     </tbody>

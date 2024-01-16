@@ -1,18 +1,101 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+/*Navbar*/
+.custom-nav {
+    background-color: #ffffff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+    .custom-nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .custom-nav li {
+        flex: 1;
+    }
+
+        .custom-nav li a {
+            outline: solid;
+            outline-color: #e8e8e8;
+            display: block;
+            padding: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000000;
+            font-weight: bold;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+            .custom-nav li a:hover {
+                background-color: #e8e8e8;
+            }
+
+            .custom-nav li a.active {
+                background-color: #4caf50;
+                color: #ffffff;
+            }
+/*Navbar*/
+
+.logo {
+    padding: 10px;
+    display: block;
+    margin: auto;
+}
+
+table {
+    outline: solid;
+    outline-color: #e8e8e8;
+    border-collapse: collapse;
+    border-radius: 10px;
+    box-shadow: #e1e5ee 0px 5px 10px;
+    background-color: white;
+    text-align: left;
+    overflow: hidden;
+}
+
+thead {
+    border-style: none;
+}
+
+tr:nth-last-child(2n) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e8e8e8;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.GuestBookingTable {
+    width: 50%;
+    display: inline;
+    margin: 0px 5px;
+}
+
+.text-align-center {
+    text-align: center;
 }
