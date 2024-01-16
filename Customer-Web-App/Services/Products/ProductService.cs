@@ -97,7 +97,7 @@ namespace Customer_Web_App.Services.Products
 
         public async Task<IEnumerable<ProductViewModel>> GetProductsByNameAsync(string searchTerm)
         {
-            var uri = $"api/product?searchTerm={searchTerm}";
+            var uri = $"api/products/UCSearch?searchTerm={searchTerm}";
             var response = await _client.GetAsync(uri);
             response.EnsureSuccessStatusCode();
             var products = await response.Content.ReadAsAsync<IEnumerable<ProductViewModel>>();
