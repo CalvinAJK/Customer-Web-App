@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Customer_Web_App.Controllers
@@ -39,20 +40,27 @@ namespace Customer_Web_App.Controllers
         [Authorize]
         public IActionResult Profile()
         {
+            // Get user claims
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            // Retrieve app metadata claims
+            var addressValue = User.Claims.FirstOrDefault(c => c.Type == "app_metadata." + userId + ".address")?.Value;
+            var phoneNumberValue = User.Claims.FirstOrDefault(c => c.Type == "app_metadata." + userId + ".phoneNumber")?.Value;
+
+            // Populate UserProfileViewModel
             var userProfile = new UserProfileViewModel()
-            {
-                Name = User.Identity.Name,
-                EmailAddress = User.Claims
-                    .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
-                ProfileImage = User.Claims
-                    .FirstOrDefault(c => c.Type == "picture")?.Value,
-                // You might need to fetch additional user information and populate the model
-                Address = "123 Main Street",
-                PhoneNumber = 123456789
+                {
+                    Name = User.Identity.Name,
+                    EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                    ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                    Address = addressValue ?? "Default Address",  // Default to "Default Address" if not present
+                    PhoneNumber = phoneNumberValue ?? "123456"  // Default to 0 if not present
             };
 
             return View(userProfile);
         }
+
+
 
         [Authorize]
         public IActionResult Claims()

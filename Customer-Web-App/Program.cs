@@ -11,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Configuration.GetValue<bool>("Services:Products:UseFake", true))
 {
     builder.Services.AddTransient<IProductsService, FakeProductService>();
+
+    // For testing purposes ONLY
+    builder.Services.AddAuth0WebAppAuthentication(options => {
+        options.Domain = builder.Configuration["Auth:Domain"];
+        options.ClientId = "piZsZJYZ3C9rDZ2ITotk28rXRmrzh9oO";
+    }); 
 }
 else
 {
