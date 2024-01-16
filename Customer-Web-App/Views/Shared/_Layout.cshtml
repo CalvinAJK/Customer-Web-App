@@ -21,9 +21,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Guests" asp-action="Index">Guests</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                         </li>
-                        <li class="nav-item">
+@*                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Staffs" asp-action="Index">Staffs</a>
                         </li>
                         <li class="nav-item">
@@ -31,9 +31,16 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="GuestBookings" asp-action="Index">Guest Bookings</a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Staffings" asp-action="Index">Staff Bookings</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Logout">Logout</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login">Login</a>
+                            }
                         </li>
                     </ul>
                 </div>

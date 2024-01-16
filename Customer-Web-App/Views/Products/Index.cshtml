@@ -16,10 +16,12 @@
             <th class="pointer" onclick="sortTable(2)">
             Price
             </th>
-
-            <th class="pointer" onclick="sortTable(3)">
-            InStock
-            </th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <th class="pointer" onclick="sortTable(3)">
+                    InStock
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -29,7 +31,10 @@
                 <td>@product.Name</td>
                 <td>@product.Description</td>
                 <td>@product.Price</td>
-                <td>@product.InStock</td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <td>@product.InStock</td>
+                }
             </tr>
         }
     </tbody>

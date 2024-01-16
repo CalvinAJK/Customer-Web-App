@@ -6,6 +6,7 @@ using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 if (builder.Configuration.GetValue<bool>("Services:Products:UseFake", true))
 {
